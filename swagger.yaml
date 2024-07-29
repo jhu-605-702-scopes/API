@@ -1,0 +1,351 @@
+openapi: "3.0.0"
+info:
+  version: 1.0.0
+  title: Swagger Petstore
+  license:
+    name: MIT
+servers:
+  - url: http://petstore.swagger.io/v1
+
+  # /users/{users_id}/horoscopes/{dates}/feedback
+paths:
+  /users:
+    get:
+      summary: List all users
+      operationId: listUsers
+      tags:
+        - pets
+      parameters:
+        - name: limit
+          in: query
+          description: How many items to return at one time (max 100)
+          required: false
+          schema:
+            type: integer
+            maximum: 100
+            format: int32
+      responses:
+        '200':
+          description: A paged array of users
+          headers:
+            x-next:
+              description: A link to the next page of responses
+              schema:
+                type: string
+          content:
+            application/json:    
+              schema:
+                $ref: "#/components/schemas/Users"
+        default:
+          description: unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+    post:
+      summary: Create a user
+      operationId: createUser
+      tags:
+        - pets
+      responses:
+        '200':
+          description: A new user
+          content:
+            application/json:    
+              schema:
+                $ref: "#/components/schemas/User"
+        default:
+          description: unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+
+  /users/{userId}:
+    get:
+      summary: Info for a specific user
+      operationId: showUserById
+      tags:
+        - pets
+      parameters:
+        - name: userId
+          in: path
+          required: true
+          description: The id of the user to retrieve
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Expected response to a valid request
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/User"
+        '404':
+          description: User not found
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+        default:
+          description: unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+    put:
+      summary: Update a user
+      operationId: updateUser
+      tags:
+        - pets
+      parameters:
+        - name: userId
+          in: path
+          required: true
+          description: The id of the user to retrieve
+          schema:
+            type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/User'
+        required: true
+      responses:
+        '200':
+          description: A new user
+          content:
+            application/json:    
+              schema:
+                $ref: "#/components/schemas/User"
+        '404':
+          description: User not found
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+        default:
+          description: unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+
+    delete:
+      summary: Delete a user by ID
+      operationId: deleteUserById
+      tags:
+        - pets
+      parameters:
+        - name: userId
+          in: path
+          required: true
+          description: The id of the user to delete
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Expected response to a valid request
+        '404':
+          description: User not found
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+        default:
+          description: unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+
+
+  /users/{userId}/horoscopes:
+    get:
+      summary: List all horoscopes for a given user
+      operationId: listHoroscopes
+      tags:
+        - pets
+      parameters:
+        - name: userID
+          in: path
+          description: Relevant user Id 
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        '200':
+          description: A paged array of horoscopes
+          headers:
+            x-next:
+              description: A link to the next page of responses
+              schema:
+                type: string
+          content:
+            application/json:    
+              schema:
+                $ref: "#/components/schemas/Horoscopes"
+        '404':
+          description: User not found
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+        default:
+          description: unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+
+    /users/{userId}/horoscopes/{date}:
+      post:
+        summary: Create a horoscope
+        operationId: createHoroscope
+        tags:
+          - pets
+        parameters:
+          - name: userID
+            in: path
+            description: Relevant user Id 
+            required: true
+            schema:
+              type: integer
+              format: int64
+          - name: date
+            in: path
+            description: Relevant date 
+            required: true
+            schema:
+              type: string
+              format: date
+        responses:
+          '200':
+            description: That day's horoscope for a given user 
+            content:
+              application/json:    
+                schema:
+                  $ref: "#/components/schemas/Horoscope"
+          '404':
+            description: User not found
+            content:
+              application/json:
+                schema:
+                  $ref: "#/components/schemas/Error"
+          '400':
+            description: Date invalid
+            content:
+              application/json:
+                schema:
+                  $ref: "#/components/schemas/Error"
+          default:
+            description: unexpected error
+            content:
+              application/json:
+                schema:
+                  $ref: "#/components/schemas/Error"
+      get: 
+        summary: Get a given user's horoscope on a given date
+        operationId: getHoroscope
+        tags:
+          - pets
+        parameters:
+          - name: userID
+            in: path
+            description: Relevant user Id 
+            required: true
+            schema:
+              type: integer
+              format: int64
+          - name: date
+            in: path
+            description: Relevant date 
+            required: true
+            schema:
+              type: string
+              format: date
+        responses:
+          '200':
+            description: That day's horoscope for a given user 
+            content:
+              application/json:    
+                schema:
+                  $ref: "#/components/schemas/Horoscope"
+          '404':
+            description: User not found
+            content:
+              application/json:
+                schema:
+                  $ref: "#/components/schemas/Error"
+          '400':
+            description: Date invalid
+            content:
+              application/json:
+                schema:
+                  $ref: "#/components/schemas/Error"
+          default:
+            description: unexpected error
+            content:
+              application/json:
+                schema:
+                  $ref: "#/components/schemas/Error"
+
+components:
+  schemas:
+    User:
+      type: object 
+      required:
+        - name
+        - username
+        - email
+        - id
+      properties:
+        name:
+          type: string
+        username:
+          type: string
+        email:
+          type: string
+        id: 
+          type: integer
+          format: int64
+    Horoscope:
+      type: object
+      properties:
+        date:
+          type: string
+          format: date
+        emojis:
+          type: array
+          minitems: 3
+          maxItems: 3
+          items:
+            $ref: "#/components/schemas/Emoji"
+        feedback:
+          $ref: "#/components/schemas/Feedback"
+    Emoji:
+      type: string
+    Feedback:
+      type: string
+    Users:
+      type: array
+      maxItems: 100
+      items:
+        $ref: "#/components/schemas/User"
+    Horoscopes:
+      type: array
+      maxItems: 100
+      items:
+        $ref: "#/components/schemas/Horoscope"
+    Error:
+      type: object
+      required:
+        - code
+        - message
+      properties:
+        code:
+          type: integer
+          format: int32
+        message:
+          type: string
