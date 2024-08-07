@@ -33,7 +33,7 @@ paths:
             application/json:    
               schema:
                 $ref: "#/components/schemas/Users"
-        default:
+        '500':
           description: unexpected error
           content:
             application/json:
@@ -51,7 +51,7 @@ paths:
             application/json:    
               schema:
                 $ref: "#/components/schemas/User"
-        default:
+        '500':
           description: unexpected error
           content:
             application/json:
@@ -84,7 +84,7 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/Error"
-        default:
+        '500':
           description: unexpected error
           content:
             application/json:
@@ -121,7 +121,7 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/Error"
-        default:
+        '500':
           description: unexpected error
           content:
             application/json:
@@ -149,7 +149,7 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/Error"
-        default:
+        '500':
           description: unexpected error
           content:
             application/json:
@@ -189,7 +189,7 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/Error"
-        default:
+        '500':
           description: unexpected error
           content:
             application/json:
@@ -236,7 +236,7 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/Error"
-        default:
+        '500':
           description: unexpected error
           content:
             application/json:
@@ -281,7 +281,7 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/Error"
-        default:
+        '500':
           description: unexpected error
           content:
             application/json:
