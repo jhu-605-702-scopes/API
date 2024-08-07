@@ -1,20 +1,17 @@
 openapi: "3.0.0"
 info:
   version: 1.0.0
-  title: Swagger Petstore
+  title: Scopes
   license:
     name: MIT
-servers:
-  - url: http://petstore.swagger.io/v1
 
-  # /users/{users_id}/horoscopes/{dates}/feedback
 paths:
   /users:
     get:
       summary: List all users
       operationId: listUsers
       tags:
-        - pets
+        - users
       parameters:
         - name: limit
           in: query
@@ -46,7 +43,7 @@ paths:
       summary: Create a user
       operationId: createUser
       tags:
-        - pets
+        - users
       responses:
         '200':
           description: A new user
@@ -66,7 +63,7 @@ paths:
       summary: Info for a specific user
       operationId: showUserById
       tags:
-        - pets
+        - users
       parameters:
         - name: userId
           in: path
@@ -97,7 +94,7 @@ paths:
       summary: Update a user
       operationId: updateUser
       tags:
-        - pets
+        - users
       parameters:
         - name: userId
           in: path
@@ -135,7 +132,7 @@ paths:
       summary: Delete a user by ID
       operationId: deleteUserById
       tags:
-        - pets
+        - users
       parameters:
         - name: userId
           in: path
@@ -165,9 +162,9 @@ paths:
       summary: List all horoscopes for a given user
       operationId: listHoroscopes
       tags:
-        - pets
+      - horoscopes
       parameters:
-        - name: userID
+        - name: userId
           in: path
           description: Relevant user Id 
           required: true
@@ -199,97 +196,97 @@ paths:
               schema:
                 $ref: "#/components/schemas/Error"
 
-    /users/{userId}/horoscopes/{date}:
-      post:
-        summary: Create a horoscope
-        operationId: createHoroscope
-        tags:
-          - pets
-        parameters:
-          - name: userID
-            in: path
-            description: Relevant user Id 
-            required: true
-            schema:
-              type: integer
-              format: int64
-          - name: date
-            in: path
-            description: Relevant date 
-            required: true
-            schema:
-              type: string
-              format: date
-        responses:
-          '200':
-            description: That day's horoscope for a given user 
-            content:
-              application/json:    
-                schema:
-                  $ref: "#/components/schemas/Horoscope"
-          '404':
-            description: User not found
-            content:
-              application/json:
-                schema:
-                  $ref: "#/components/schemas/Error"
-          '400':
-            description: Date invalid
-            content:
-              application/json:
-                schema:
-                  $ref: "#/components/schemas/Error"
-          default:
-            description: unexpected error
-            content:
-              application/json:
-                schema:
-                  $ref: "#/components/schemas/Error"
-      get: 
-        summary: Get a given user's horoscope on a given date
-        operationId: getHoroscope
-        tags:
-          - pets
-        parameters:
-          - name: userID
-            in: path
-            description: Relevant user Id 
-            required: true
-            schema:
-              type: integer
-              format: int64
-          - name: date
-            in: path
-            description: Relevant date 
-            required: true
-            schema:
-              type: string
-              format: date
-        responses:
-          '200':
-            description: That day's horoscope for a given user 
-            content:
-              application/json:    
-                schema:
-                  $ref: "#/components/schemas/Horoscope"
-          '404':
-            description: User not found
-            content:
-              application/json:
-                schema:
-                  $ref: "#/components/schemas/Error"
-          '400':
-            description: Date invalid
-            content:
-              application/json:
-                schema:
-                  $ref: "#/components/schemas/Error"
-          default:
-            description: unexpected error
-            content:
-              application/json:
-                schema:
-                  $ref: "#/components/schemas/Error"
+  /users/{userId}/horoscopes/{date}:
+    post:
+      summary: Create a horoscope
+      operationId: createHoroscope
+      tags:
+      - horoscopes
+      parameters:
+        - name: userId
+          in: path
+          description: Relevant user Id 
+          required: true
+          schema:
+            type: integer
+            format: int64
+        - name: date
+          in: path
+          description: Relevant date 
+          required: true
+          schema:
+            type: string
+            format: date
+      responses:
+        '200':
+          description: That day's horoscope for a given user 
+          content:
+            application/json:    
+              schema:
+                $ref: "#/components/schemas/Horoscope"
+        '404':
+          description: User not found
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+        '400':
+          description: Date invalid
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+        default:
+          description: unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+    get: 
+      summary: Get a given user's horoscope on a given date
+      operationId: getHoroscope
+      tags:
+      - horoscopes
+      parameters:
+        - name: userId
+          in: path
+          description: Relevant user Id 
+          required: true
+          schema:
+            type: integer
+            format: int64
+        - name: date
+          in: path
+          description: Relevant date 
+          required: true
+          schema:
+            type: string
+            format: date
+      responses:
+        '200':
+          description: That day's horoscope for a given user 
+          content:
+            application/json:    
+              schema:
+                $ref: "#/components/schemas/Horoscope"
+        '404':
+          description: User not found
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+        '400':
+          description: Date invalid
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+        default:
+          description: unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
 
 components:
   schemas:
@@ -318,7 +315,7 @@ components:
           format: date
         emojis:
           type: array
-          minitems: 3
+          minItems: 3
           maxItems: 3
           items:
             $ref: "#/components/schemas/Emoji"
